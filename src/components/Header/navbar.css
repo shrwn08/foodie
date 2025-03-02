@@ -1,0 +1,13 @@
+.home_link {
+  color: black;
+}
+
+.offers_link {
+    color: black;
+  }
+.home_link:hover {
+  color: #39db4a;
+}
+.offers_link:hover {
+    color: #39db4a;
+  }
