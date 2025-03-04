@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Chef from "../../assets/image/chef-login.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/slice/userSlice";
+
 
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {isError, token} = useSelector(state=>state.user)
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -18,17 +20,24 @@ function Login() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit =async (e) => {
     e.preventDefault();
 
-    dispatch(loginUser(formData));
+   await dispatch(loginUser(formData));
 
-    if (formData.username !== "admin") {
-      navigate("/");
-    } else {
-      navigate("/admin");
-    }
+   
   };
+
+  useEffect(()=>{
+    if(isError){
+      navigate("/login")
+     return alert("Failed to login")
+    }else if(token){
+    formData.username !== "admin"?navigate("/"):navigate("/admin")
+    }
+  },[isError,token, formData.username, navigate])
+
+  
   return (
     <div className="w-full h-[565px] flex justify-center items-center">
       <div className="w-5/6 h-full flex justify-between items-center ">
@@ -80,6 +89,7 @@ function Login() {
           </div>
         </div>
       </div>
+      
     </div>
   );
 }

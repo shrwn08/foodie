@@ -3,12 +3,15 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useDispatch } from "react-redux";
 import { fetchCategoryProducts } from "../../redux/slice/productSlice.js";
 import { useEffect } from "react";
+import { addToCart } from "../../redux/slice/cartSlice.js";
 
 function BreakFast() {
   const dispatch = useDispatch();
   const { categories, isLoading, isError } = useSelector(
     (state) => state.products
   );
+  const { token} = useSelector(state=>state.user)
+
 
   useEffect(() => {
     dispatch(fetchCategoryProducts("breakfast"));
@@ -21,7 +24,12 @@ function BreakFast() {
     isError && <p>Error fetching products.</p>;
   }
 
-  console.log(categories.breakfast);
+const handleAddToCartBtn=(product)=>{
+  if(!token){
+    return alert("Please login to add to cart")
+  }
+ dispatch(addToCart(product))
+}
   return (
     <div className="w-screen min-h-[520px] flex justify-center items-center flex-col gap-5 mt-5">
       <div className="w-5/6 h-full justify-center items-center flex flex-col">
@@ -59,7 +67,7 @@ function BreakFast() {
                   </span>
                 </div>
                 <div className="w-full h-10 flex justify-center items-center">
-                  <button className="bg-[#39DB4A] w-11/12 h-full rounded-md text-white hover:cursor-pointer font-semibold">
+                  <button className="bg-[#39DB4A] w-11/12 h-full rounded-md text-white hover:cursor-pointer font-semibold" onClick={()=>handleAddToCartBtn(product)}>
                     Add to Cart
                   </button>
                 </div>

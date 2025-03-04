@@ -5,6 +5,7 @@ import { fetchProducts } from "../../redux/slice/productSlice";
 
 const Menu = () => {
   const {data, isLoading, isError } = useSelector((state) => state.products);
+  const {token} = useSelector(state=>state.user)
 
   const dispatch = useDispatch()
   useEffect(()=>{
@@ -17,7 +18,10 @@ dispatch(fetchProducts())
   {
     isError && <p>Error fetching products.</p>;
   }
-  console.log(data)
+  const handleAddToCartBtn=()=>{
+    if(!token){
+      return alert("Please login to add to cart")
+    }}
   return (
     <div className="w-screen min-h-[520px] flex justify-center items-center flex-col gap-5 mt-5">
       <div className="w-5/6 h-full justify-center items-center flex flex-col">
@@ -55,7 +59,7 @@ dispatch(fetchProducts())
                   </span>
                 </div>
                 <div className="w-full h-10 flex justify-center items-center">
-                  <button className="bg-[#39DB4A] w-11/12 h-full rounded-md text-white hover:cursor-pointer font-semibold">
+                  <button className="bg-[#39DB4A] w-11/12 h-full rounded-md text-white hover:cursor-pointer font-semibold" onClick={handleAddToCartBtn}>
                     Add to Cart
                   </button>
                 </div>

@@ -1,4 +1,4 @@
-import SearchIcon from "@mui/icons-material/Search";
+
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
@@ -18,6 +18,10 @@ function Navbar() {
     useSelector((state) => state.user.token) ||
     localStorage.getItem("userToken");
 
+  const { user } = useSelector((state) => state.user);
+
+  const {totalQuantity} = useSelector(state=> state.cart)
+
   const handleServiceBtn = () => {
     setServiceBtn((prev) => !prev);
   };
@@ -28,6 +32,7 @@ function Navbar() {
     navigate("/login");
   };
 
+  console.log("totalQuantity", totalQuantity)
   return (
     <div className="w-full h-12 flex justify-center items-center">
       <div className="w-5/6 h-full  flex justify-between items-center">
@@ -37,7 +42,7 @@ function Navbar() {
           </div>
           <p className="font-bold text-2xl text-black">oodie</p>
         </Link>
-        <div className="flex justify-between items-center h-12 w-84 font-semibold">
+        <div className="flex justify-between items-center h-12 w-56 font-semibold">
           <div>
             <Link to="/" className="home_link">
               Home
@@ -74,19 +79,16 @@ function Navbar() {
             </Link>
           </div>
         </div>
-        <div className="w-80 px-2 flex justify-between items-center ">
-          <button>
-            {" "}
-            <SearchIcon fontSize="medium" sx={{ color: "black" }} />{" "}
-          </button>
-          <button className="relative">
+        <div className="max-w-2/5 px-2 flex justify-between items-center gap-5">
+         
+          <button className="relative" onClick={()=>navigate("/cart")}>
             {" "}
             <ShoppingBagOutlinedIcon
               fontSize="medium"
               sx={{ color: "black" }}
             />{" "}
             <span className="h-4 w-4 bg-[#39DB4A] absolute top-[-5px] right-[-5px] font-semibold text-center rounded-full flex justify-center items-center">
-              0
+             {totalQuantity}
             </span>
           </button>
 
@@ -95,20 +97,33 @@ function Navbar() {
             <CallOutlinedIcon fontSize="medium" sx={{ color: "white" }} />{" "}
             Contact
           </button>
-          <div className="bg-[#39DB4A] w-28 h-10  font-semibold rounded-lg hover:rounded-full flex justify-center items-center">
-            {!token ? (
+          {!token ? (
+            <div className="bg-[#39DB4A] w-28 h-10  font-semibold rounded-lg hover:rounded-full flex justify-center items-center">
               <Link to="/login" style={{ color: "white" }}>
                 Log in
               </Link>
-            ) : (
+            </div>
+          ) : (
+            <div className="flex justify-between items-center">
               <button
-                className="text-white w-full h-full flex justify-center items-center hover:cursor-pointer"
+                className="text-white bg-[#39DB4A] w-28 h-10 font-semibold rounded-lg hover:rounded-full flex justify-center items-center hover:cursor-pointer"
                 onClick={handleLogout}
               >
                 Log out
               </button>
-            )}
-          </div>
+              {token && (
+                <div className="bg-none w-auto flex justify-between items-center gap-5 px-3">
+                <p className="text-black">{user && user.name}</p>
+                <img
+                  className="h-8 w-8 rounded-full "
+                  src={user && user.avatar}
+                  alt="avatar"
+                />
+              </div>
+              )}
+             
+            </div>
+          )}
         </div>
       </div>
     </div>

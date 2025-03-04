@@ -13,6 +13,8 @@ import Dinner from "./components/Dinner/Dinner";
 import Admin from "./components/Admin/Admin";
 import Menu from "./components/Menu/Menu";
 import Dessert from "./components/Dessert/Dessert"
+import Cart from "./components/Cart/Cart"
+import Thankyou from "./components/Thankyou/Thankyou";
 
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/menu" element={<Menu/>} />
           <Route path="/dessert" element={<Dessert />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/thankyou" element={<Thankyou />} />
         </Routes>
       <Footer />
     </div>
