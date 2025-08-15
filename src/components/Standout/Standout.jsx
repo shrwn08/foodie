@@ -24,15 +24,15 @@ function Standout() {
 //   },[]);
 
   return (
-    <div className="w-full h-[520px] flex justify-center items-center">
-      <div className="w-5/6 h-full ">
-        <p className="text-red-500 font-semibold">SPECIAL DISH</p>
-        <div className="flex justify-between items-center">
-          <div className="text-black font-bold text-5xl">
+    <div className="w-full h-auto flex justify-center items-center py-5">
+      <div className="w-full md:w-5/6 h-full px-3 md:px-0">
+        <p className="text-red-500 font-semibold text-2xl md:text-base text-center md:text-left">SPECIAL DISH</p>
+        <div className="flex md:justify-between justify-center  items-center">
+          <div className="text-black  font-bold text-6xl md:text-5xl">
             <p>Standout Dishes </p>
             <p>From Our Menu</p>
           </div>
-          <div className="flex gap-5">
+          <div className=" gap-5 hidden md:flex">
             <div className="w-12 h-12 rounded-full bg-gray-300 flex justify-center items-center">
               <ArrowBackIosOutlinedIcon />
             </div>
@@ -41,9 +41,9 @@ function Standout() {
             </div>
           </div>
         </div>
-        <div className="mt-5 flex justify-center items-center">
-          <div className="flex justify-between items-center gap-8">
-            <div className="h-56 w-56 bg-white rounded-2xl relative overflow-hidden flex flex-col justify-center items-center drop-shadow-xl">
+        <div className="w-full h-auto   mt-5 flex justify-center items-center">
+          <div className="flex justify-between flex-wrap flex-row items-center gap-8">
+            <div className="w-72 h-72 md:h-56 md:w-56 bg-white rounded-2xl relative overflow-hidden flex flex-col justify-center items-center drop-shadow-xl">
               <div
                 className="absolute w-10 h-10 top-0 right-0 bg-[#39DB4A] flex justify-center items-center"
                 style={{ borderRadius: "0 1rem 0 1rem" }}
@@ -69,7 +69,7 @@ function Standout() {
               </div>
             </div>
 
-            <div className="h-56 w-56 bg-white rounded-2xl relative overflow-hidden flex flex-col justify-center items-center drop-shadow-xl">
+            <div className="w-72 h-72 md:h-56 md:w-56 bg-white rounded-2xl relative overflow-hidden flex flex-col justify-center items-center drop-shadow-xl">
               <div
                 className="absolute w-10 h-10 top-0 right-0 bg-[#39DB4A] flex justify-center items-center"
                 style={{ borderRadius: "0 1rem 0 1rem" }}
@@ -95,7 +95,7 @@ function Standout() {
               </div>
             </div>
 
-            <div className="h-56 w-56 bg-white rounded-2xl relative overflow-hidden flex flex-col justify-center items-center drop-shadow-xl">
+            <div className="w-72 h-72 md:h-56 md:w-56 bg-white rounded-2xl relative overflow-hidden flex flex-col justify-center items-center drop-shadow-xl">
               <div
                 className="absolute w-10 h-10 top-0 right-0 bg-[#39DB4A] flex justify-center items-center"
                 style={{ borderRadius: "0 1rem 0 1rem" }}
@@ -120,7 +120,7 @@ function Standout() {
                 </div>
               </div>
             </div>
-            <div className="h-56 w-56 bg-white rounded-2xl relative overflow-hidden flex flex-col justify-center items-center drop-shadow-xl">
+            <div className="w-72 h-72 md:h-56 md:w-56 bg-white rounded-2xl relative overflow-hidden flex flex-col justify-center items-center drop-shadow-xl">
               <div
                 className="absolute w-10 h-10 top-0 right-0 bg-[#39DB4A] flex justify-center items-center"
                 style={{ borderRadius: "0 1rem 0 1rem" }}

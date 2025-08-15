@@ -8,7 +8,7 @@ import { loginUser } from "../../redux/slice/userSlice";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {isError, token} = useSelector(state=>state.user)
+  const {isError, accessToken, user} = useSelector(state=>state.user)
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -24,20 +24,40 @@ function Login() {
     e.preventDefault();
 
    await dispatch(loginUser(formData));
-
+setFormData({
+  username : "",
+  password : ""
+})
    
   };
 
-  useEffect(()=>{
-    if(isError){
-      navigate("/login")
-     return alert("Failed to login")
-    }else if(token){
-    formData.username !== "admin"?navigate("/"):navigate("/admin")
-    }
-  },[isError,token, formData.username, navigate])
-
+  useEffect(() => {
+    console.log("isError:", isError);
+   
+    console.log("user:", user);
   
+    if (isError) {
+      alert("Failed to login");
+      return;
+    }
+  if(user){
+    if (accessToken && user?.username) {
+      console.log("accessToken:", accessToken);
+      console.log("Redirecting to:", user.username === "admin" ? "/admin" : "/");
+      if (user.username === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    }
+  }
+
+  }, [isError, accessToken, user, navigate]);
+  
+  
+  
+
+
   return (
     <div className="w-full h-[565px] flex justify-center items-center">
       <div className="w-5/6 h-full flex justify-between items-center ">

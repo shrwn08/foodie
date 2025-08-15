@@ -1,15 +1,28 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import config from "../../config/config";
+
+// Load persisted data
+const accessToken = localStorage.getItem("accessToken") || null;
+const user = JSON.parse(localStorage.getItem("user")) || null;
 
 // Register User
 export const registerUser = createAsyncThunk(
-  "user/registerUser",
+  "user/register",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://localhost:3000/auth/user/register", userData);
-      return response.data;
+      const response = await axios.post(
+        `${config}/auth/user/register`,
+        userData,
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      const { accessToken, user } = response.data;
+      return { user, accessToken };
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: "Registration failed" });
+      return rejectWithValue(
+        error.response?.data || { message: "Registration failed" }
+      );
     }
   }
 );
@@ -19,28 +32,31 @@ export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://localhost:3000/auth/user/login", userData, {
-        withCredentials: true,
-      });
-      const { token, user } = response.data;
-      localStorage.setItem("userToken", token);
-      return { user, token };
+      const response = await axios.post(
+        `${config}/auth/user/login`,
+        userData,
+        { headers: { "Content-Type": "application/json" }, withCredentials: true }
+      );
+
+      const { accessToken, user } = response.data;
+      return { user, accessToken };
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: "Invalid Credentials" });
+      return rejectWithValue(
+        error.response?.data || { message: "Invalid Credentials" }
+      );
     }
   }
 );
 
 // Update User Address
 export const updateUserAddress = createAsyncThunk(
-  "updateUserAddress",
-  async (  address , { rejectWithValue }) => {
+  "user/updateAddress",
+  async (address, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("userToken");
-      // console.log(token)
+      const token = localStorage.getItem("accessToken");
       const response = await axios.put(
         `http://localhost:3000/auth/user/address`,
-         {address} ,
+        { address },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -49,52 +65,58 @@ export const updateUserAddress = createAsyncThunk(
           withCredentials: true,
         }
       );
-      return response.data.user; // Return updated user
+      return response.data.user;
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: "Failed to update address" });
+      return rejectWithValue(
+        error.response?.data || { message: "Failed to update address" }
+      );
     }
   }
 );
 
+// Update User Wallet
 export const updateUserWallet = createAsyncThunk(
   "user/updateWallet",
   async (totalPrice, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("userToken"); // Get JWT token from localStorage
+      const token = localStorage.getItem("accessToken");
       const response = await axios.put(
         "http://localhost:3000/auth/user/wallet",
-        { totalPrice }, // Send totalPrice in the request body
-        { headers: { Authorization: `Bearer ${token}` } } // Include token for authentication
+        { totalPrice },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      return response.data.wallet; // Return updated wallet balance
+      return response.data.wallet;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Wallet update failed");
+      return rejectWithValue(
+        error.response?.data?.message || "Wallet update failed"
+      );
     }
   }
 );
 
-
-// Logout User
-export const logoutUser = createAsyncThunk("user/logoutUser", async () => {
-  localStorage.removeItem("userToken");
-  return null;
-});
-
-// User Slice
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: null,
-    token: localStorage.getItem("userToken") || null,
+    user : user,
+    accessToken,
+    isAuthenticated: !!accessToken,
     isLoading: false,
     isError: false,
     errorMessage: "",
   },
-  reducers: {},
+  reducers: {
+    logoutUser: (state) => {
+      state.user = null;
+      state.accessToken = null;
+      state.isAuthenticated = false;
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("user");
+    },
+  },
   extraReducers: (builder) => {
     builder
-      // Register User
+      // Register
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
         state.isError = false;
@@ -103,8 +125,10 @@ const userSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user;
-        state.token = action.payload.token;
-        localStorage.setItem("userToken", action.payload.token);
+        state.accessToken = action.payload.accessToken;
+        state.isAuthenticated = true;
+        localStorage.setItem("accessToken", action.payload.accessToken);
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -112,15 +136,19 @@ const userSlice = createSlice({
         state.errorMessage = action.payload?.message || "Something went wrong";
       })
 
-      // Login User
+      // Login
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
+        state.isError = false;
+        state.errorMessage = "";
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user;
-        state.token = action.payload.token;
-        localStorage.setItem("userToken", action.payload.token);
+        state.accessToken = action.payload.accessToken;
+        state.isAuthenticated = true;
+        localStorage.setItem("accessToken", action.payload.accessToken);
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -128,49 +156,43 @@ const userSlice = createSlice({
         state.errorMessage = action.payload?.message || "Login failed";
       })
 
-      // Update User Address
+      // Update Address
       .addCase(updateUserAddress.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(updateUserAddress.fulfilled, (state, action) => {
         state.isLoading = false;
         if (state.user) {
-          state.user.address = action.payload.address; // Update user address in state
+          state.user.address = action.payload.address;
+          localStorage.setItem("user", JSON.stringify(state.user));
         }
       })
       .addCase(updateUserAddress.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.errorMessage = action.payload?.message || "Failed to update address";
+        state.errorMessage =
+          action.payload?.message || "Failed to update address";
       })
 
-      // Logout User
-      .addCase(logoutUser.fulfilled, (state) => {
-        state.user = null;
-        state.token = null;
-      });
-
-
-      //user wallet
-      builder
+      // Update Wallet
       .addCase(updateUserWallet.pending, (state) => {
-        state.status = "loading";
+        state.isLoading = true;
       })
       .addCase(updateUserWallet.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.isLoading = false;
         if (state.user) {
-          state.user.wallet = action.payload; // Update wallet balance
+          state.user.wallet = action.payload;
+          localStorage.setItem("user", JSON.stringify(state.user));
         }
       })
       .addCase(updateUserWallet.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
+        state.isLoading = false;
+        state.isError = true;
+        state.errorMessage =
+          action.payload?.message || "Failed to update wallet";
       });
   },
 });
 
-
-
-
-
+export const { logoutUser } = userSlice.actions;
 export default userSlice.reducer;

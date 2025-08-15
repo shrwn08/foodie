@@ -5,9 +5,12 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../redux/slice/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [error, setError] = useState("")
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
   const [formData, setFormData] = useState({
@@ -31,16 +34,33 @@ function SignUp() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  const handleOnSubmit = async (event) => {
-    event.preventDefault();
-    if(password !== rePassword){
-     
-      alert("Password is not matching")
 
+
+  const handleOnSubmit =  (event) => {
+    event.preventDefault();
+
+    if(!formData.name || !formData.email || !formData.username || !password || !rePassword){
+      setError("All fields are requird.");
+      return;
     }
 
-    const updatedFormData = {...formData, password}
-    dispatch(registerUser(updatedFormData))
+    
+    if(password !== rePassword){
+      
+      alert("Password is not matching")
+      
+    }
+    
+    try {
+      const updatedFormData = {...formData, password}
+        dispatch(registerUser(updatedFormData)).unwrap();
+      navigate("/login")
+    } catch (err) {
+      setError(err.message || "Registeration failed. Please try again")
+    }
+    
+   
+
     setFormData({
       name : "",
       username : "",

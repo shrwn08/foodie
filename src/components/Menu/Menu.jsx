@@ -30,7 +30,7 @@ dispatch(fetchProducts())
           A delicious food of Foodie
         </p>
       </div>
-      <div className="w-5/6 h-full  grid grid-cols-4 gap-y-5">
+      <div className="w-5/6 h-full grid grid-cols-1  sm:grid-cols-4 gap-y-5">
         {data &&
           data.map((product) => (
             <div

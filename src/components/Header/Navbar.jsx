@@ -14,28 +14,27 @@ function Navbar() {
   const [serviceBtn, setServiceBtn] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token =
-    useSelector((state) => state.user.token) ||
-    localStorage.getItem("userToken");
+  const { user, isAuthenticated} =
+    useSelector((state) => state.user) 
 
-  const { user } = useSelector((state) => state.user);
 
+console.log(user)
   const {totalQuantity} = useSelector(state=> state.cart)
 
   const handleServiceBtn = () => {
     setServiceBtn((prev) => !prev);
   };
 
-  const handleLogout = async () => {
-    await dispatch(logoutUser());
-    localStorage.removeItem("userToken");
+  const handleLogout =  () => {
+     dispatch(logoutUser());
+    
     navigate("/login");
   };
 
-  console.log("totalQuantity", totalQuantity)
+  
   return (
     <div className="w-full h-12 flex justify-center items-center">
-      <div className="w-5/6 h-full  flex justify-between items-center">
+      <div className="w-11/12 sm:w-5/6 h-full  flex justify-between items-center">
         <Link to="/" className="w-auto px-2 flex justify-center items-center">
           <div className="w-8 h-8 bg-[#39DB4A] text-white font-bold text-3xl flex justify-center items-center rounded-md">
             <img src={logo} alt="logo" />
@@ -97,7 +96,7 @@ function Navbar() {
             <CallOutlinedIcon fontSize="medium" sx={{ color: "white" }} />{" "}
             Contact
           </button>
-          {!token ? (
+          {!isAuthenticated? (
             <div className="bg-[#39DB4A] w-28 h-10  font-semibold rounded-lg hover:rounded-full flex justify-center items-center">
               <Link to="/login" style={{ color: "white" }}>
                 Log in
@@ -111,7 +110,7 @@ function Navbar() {
               >
                 Log out
               </button>
-              {token && (
+              {(isAuthenticated) && (
                 <div className="bg-none w-auto flex justify-between items-center gap-5 px-3">
                 <p className="text-black">{user && user.name}</p>
                 <img
