@@ -21,7 +21,7 @@ function App() {
 
 
   return (
-    <div className="min-h-screen w-full bg-[#EEEEEE] p-0 m-0 overflow-x-hidden">
+    <div className="min-h-screen w-full bg-[#EEEEEE] ">
       <Navbar />
 
         <Routes>

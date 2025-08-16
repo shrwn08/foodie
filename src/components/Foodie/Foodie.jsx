@@ -1,6 +1,6 @@
 function Foodie() {
   return (
-    <div className="w-full h-auto flex justify-center items-center">
+    <div className="w-full h-auto flex justify-center items-center mt-5">
       <div className="w-5/6 h-full flex flex-col md:flex-row justify-between items-center">
         <div className="flex justify-start items-start flex-col gap-8">
           <div className="w-full md:w-auto px-2 flex justify-center items-center">

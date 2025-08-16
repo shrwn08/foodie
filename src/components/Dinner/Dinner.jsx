@@ -26,14 +26,14 @@ function Dinner() {
     }
   };
   return (
-    <div className="w-screen min-h-[520px] flex justify-center items-center flex-col gap-5 mt-5">
+    <div className="w-full min-h-[520px] flex justify-center items-center flex-col gap-5 mt-5">
       <div className="w-5/6 h-full justify-center items-center flex flex-col">
         <p className="text-4xl font-bold text-black">Dinner Menu</p>
         <p className="font-[Hurricane] text-2xl text-black">
           A delicious food of Foodie
         </p>
       </div>
-      <div className="w-5/6 h-full  grid grid-cols-4 gap-y-5">
+      <div className="w-5/6 h-full flex flex-row  flex-wrap justify-center items-start  gap-5">
         {categories.dinner &&
           categories.dinner.map((product) => (
             <div
