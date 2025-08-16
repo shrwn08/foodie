@@ -2,6 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import config from "../../config/config";
 
+const accessToken = localStorage.getItem("accessToken") || null;
+const token = accessToken;
+
 const initialState = {
   cartItems: [],
   totalQuantity: 0,
