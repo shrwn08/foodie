@@ -3,7 +3,7 @@ import axios from "axios";
 import config from "../../config/config";
 
 // Load persisted data
-const accessToken = localStorage.getItem("accessToken") || null;
+const token = localStorage.getItem("accessToken") || null;
 const user = JSON.parse(localStorage.getItem("user")) || null;
 
 // Register User
@@ -18,7 +18,7 @@ export const registerUser = createAsyncThunk(
       );
 
       const { accessToken, user } = response.data;
-      return { user, accessToken };
+      return { user, token: accessToken };
     } catch (error) {
       return rejectWithValue(
         error.response?.data || { message: "Registration failed" }
@@ -39,7 +39,7 @@ export const loginUser = createAsyncThunk(
       );
 
       const { accessToken, user } = response.data;
-      return { user, accessToken };
+      return { user, token: accessToken };
     } catch (error) {
       return rejectWithValue(
         error.response?.data || { message: "Invalid Credentials" }
@@ -98,9 +98,9 @@ export const updateUserWallet = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user : user,
-    accessToken,
-    isAuthenticated: !!accessToken,
+    user: user,
+    token: token,
+    isAuthenticated: !!token,
     isLoading: false,
     isError: false,
     errorMessage: "",
@@ -108,7 +108,7 @@ const userSlice = createSlice({
   reducers: {
     logoutUser: (state) => {
       state.user = null;
-      state.accessToken = null;
+      state.token = null;
       state.isAuthenticated = false;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("user");
@@ -125,9 +125,9 @@ const userSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
+        state.token = action.payload.token;
         state.isAuthenticated = true;
-        localStorage.setItem("accessToken", action.payload.accessToken);
+        localStorage.setItem("accessToken", action.payload.token);
         localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(registerUser.rejected, (state, action) => {
@@ -145,9 +145,9 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
+        state.token = action.payload.token;
         state.isAuthenticated = true;
-        localStorage.setItem("accessToken", action.payload.accessToken);
+        localStorage.setItem("accessToken", action.payload.token);
         localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(loginUser.rejected, (state, action) => {

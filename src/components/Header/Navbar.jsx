@@ -18,7 +18,7 @@ function Navbar() {
     useSelector((state) => state.user) 
 
 
-console.log(user)
+
   const {totalQuantity} = useSelector(state=> state.cart)
 
   const handleServiceBtn = () => {

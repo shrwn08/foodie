@@ -2,15 +2,19 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../redux/slice/productSlice";
+import { addToCart } from "../../redux/slice/cartSlice";
 
 const Menu = () => {
   const {data, isLoading, isError } = useSelector((state) => state.products);
-  const {token} = useSelector(state=>state.user)
+  const {token} = useSelector((state)=>state.user)
+
+
+  console.log(token)
 
   const dispatch = useDispatch()
   useEffect(()=>{
 dispatch(fetchProducts())
-  },[])
+  },[dispatch])
 
   {
     isLoading.all && <p>Loading products...</p>;
@@ -18,19 +22,24 @@ dispatch(fetchProducts())
   {
     isError && <p>Error fetching products.</p>;
   }
-  const handleAddToCartBtn=()=>{
+
+
+  const handleAddToCartBtn=(id)=>{
     if(!token){
       return alert("Please login to add to cart")
-    }}
+    }
+    dispatch(addToCart({id, quantity: 1}));
+
+  }
   return (
-    <div className="w-screen min-h-[520px] flex justify-center items-center flex-col gap-5 mt-5">
+    <div className="w-full min-h-[520px] flex justify-center items-center flex-col gap-5 mt-5">
       <div className="w-5/6 h-full justify-center items-center flex flex-col">
         <p className="text-4xl font-bold text-black">Full Menu</p>
         <p className="font-[Hurricane] text-2xl text-black">
           A delicious food of Foodie
         </p>
       </div>
-      <div className="w-5/6 h-full grid grid-cols-1  sm:grid-cols-4 gap-y-5">
+      <div className="w-5/6 h-full flex flex-row flex-wrap justify-center items-start gap-5">
         {data &&
           data.map((product) => (
             <div
@@ -59,7 +68,7 @@ dispatch(fetchProducts())
                   </span>
                 </div>
                 <div className="w-full h-10 flex justify-center items-center">
-                  <button className="bg-[#39DB4A] w-11/12 h-full rounded-md text-white hover:cursor-pointer font-semibold" onClick={handleAddToCartBtn}>
+                  <button className="bg-[#39DB4A] w-11/12 h-full rounded-md text-white hover:cursor-pointer font-semibold" onClick={()=>handleAddToCartBtn(product._id)}>
                     Add to Cart
                   </button>
                 </div>

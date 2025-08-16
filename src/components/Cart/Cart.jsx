@@ -7,9 +7,10 @@ function Cart() {
   const { cartItems, totalPrice } = useSelector((state) => state.cart);
 console.log("cartItems", cartItems)
   return (
-    <div className="flex w-screen h-screen md:min-h-[200px]">
-    <div className="w-9/12  bg-white  shadow-lg rounded-lg">
-      <h2 className="text-xl font-bold">Your Cart</h2>
+    <div className="flex w-screen h-auto  justify-center items-center  md:min-h-[200px]">
+    <div className="w-11/12 md:w-4/5  bg-white flex flex-col md:flex-row justify-between items-center   shadow-lg rounded-lg">
+      <div className="w-full min-h-96 flex flex-col justify-start items-center bg-amber-400">
+      <h2 className="text-xl font-bold  text-gray-300">Your Cart</h2>
       {cartItems.length === 0 ? (
         <p className="text-gray-500">Cart is empty.</p>
       ) : (
@@ -40,8 +41,10 @@ console.log("cartItems", cartItems)
           </button>
         </>
       )}
+      </div>
+       <Address />
     </div>
-    <Address />
+   
     </div>
   );
 }
