@@ -17,32 +17,32 @@ function Service() {
         <div className="cards w-full mt-5">
             <div className="card-container flex justify-center items-center gap-6">
                 <div className="h-72 w-72 md:h-46 md:w-46 bg-white rounded-2xl drop-shadow-2xl gap-3 flex flex-col justify-center items-center">
-                        <img src={Catering} alt='Catering' style={{width : "40px"}}/>
-                        <p className='text-[#39DB4A] font-semibold'>CATERING</p>
-                        <p className='text-[#90BD95] text-sm text-center '>
+                        <img src={Catering} alt='Catering' className='md:h-10 h-14'/>
+                        <p className='text-[#39DB4A] font-semibold md:text-base text-2xl'>CATERING</p>
+                        <p className='text-[#90BD95]  md:text-sm text-base text-center '>
                         Delight your guests with our flavors and  presentation
                         </p>
                 </div>
                 <div className="h-72 w-72 md:h-46 md:w-46 bg-white rounded-2xl drop-shadow-2xl gap-3 flex flex-col justify-center items-center">
-                        <img src={Fast} alt='Catering' style={{width : "40px"}}/>
-                        <p className='text-[#39DB4A] font-semibold'>Fast delivery</p>
-                        <p className='text-[#90BD95] text-sm text-center '>
+                        <img src={Fast} alt='Catering' className='md:h-10 h-14'/>
+                        <p className='text-[#39DB4A] font-semibold md:text-base text-2xl'>Fast delivery</p>
+                        <p className='text-[#90BD95]  md:text-sm text-base text-center '>
                         We deliver your order promptly to your door
                         </p>
                 </div>
             </div>
             <div className="card-container flex justify-center items-center gap-6 mt-5">
                 <div className="h-72 w-72 md:h-46 md:w-46 bg-white rounded-2xl drop-shadow-2xl gap-3 flex flex-col justify-center items-center">
-                        <img src={Cart} alt='cart' style={{width : "40px"}}/>
-                        <p className='text-[#39DB4A] font-semibold'>ONLINE ORDERING</p>
-                        <p className='text-[#90BD95] text-sm text-center '>
+                        <img src={Cart} alt='cart' className='md:h-10 h-14'/>
+                        <p className='text-[#39DB4A] font-semibold md:text-base text-2xl'>ONLINE ORDERING</p>
+                        <p className='text-[#90BD95]  md:text-sm text-base text-center '>
                         Explore menu & order with ease using our Online Ordering 
                         </p>
                 </div>
                 <div className="h-72 w-72 md:h-46 md:w-46 bg-white rounded-2xl drop-shadow-2xl gap-3 flex flex-col justify-center items-center ">
-                        <img src={Gift} alt='gift' style={{width : "40px"}}/>
-                        <p className='text-[#39DB4A] font-semibold'>GIFT CARDS</p>
-                        <p className='text-[#90BD95] text-sm text-center '>
+                        <img src={Gift} alt='gift' className='md:h-10 h-14'/>
+                        <p className='text-[#39DB4A] font-semibold md:text-base text-2xl'>GIFT CARDS</p>
+                        <p className='text-[#90BD95]  text-center  md:text-sm text-base'>
                         Give the gift of exceptional dining with Foodie Gift Cards
                         </p>
                 </div>

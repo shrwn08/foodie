@@ -7,9 +7,9 @@ import { YouTube } from '@mui/icons-material';
 function Footer (){
 
     return ( 
-        <div className="w-full h-12  flex justify-center items-center bg-gray-400">
-            <div className="w-5/6 h-full">
-                <div className="w-2/3 h-full flex justify-between items-center">
+        <div className="w-full h-20 md:h-12  flex justify-center items-center bg-gray-400">
+            <div className="w-5/6 h-full flex justify-center items-center">
+                <div className="w-2/3 h-full flex flex-col justify-center md:flex-row md:justify-between items-center">
                     <div className=" flex justify-between items-center gap-5">
                         <FacebookOutlinedIcon />
                         <Instagram />
